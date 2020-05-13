@@ -9,6 +9,13 @@ export const Pane = styled.div`
   background-color: white;
 `;
 
+export const FileTitle = styled.div`
+  position: relative;
+  bottom: 68px;
+  left: 210px;
+  background-color: white;
+`;
+
 export const PositionedContent = styled.div`
   position: relative;
   bottom: 38px;

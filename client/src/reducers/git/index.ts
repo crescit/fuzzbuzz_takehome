@@ -2,6 +2,7 @@ import {
   FETCH_REPO,
   RESET_REPO,
   REPO_RESPONSE,
+  CONTENT_RESPONSE,
 } from '../../actions/git/constants';
 
 const initialState = {
@@ -19,12 +20,19 @@ const repository = (state = initialState, action: any) => {
     case REPO_RESPONSE:
       return {
         ...state,
-        files: action.payload,
+        files: action.files,
+        stars: action.stars,
       };
     case RESET_REPO:
       return {
         ...state,
         name: undefined,
+      };
+    case CONTENT_RESPONSE:
+      return {
+        ...state,
+        content: action.content,
+        fileName: action.filename,
       };
     default:
       return state;
