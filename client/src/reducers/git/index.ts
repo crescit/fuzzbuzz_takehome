@@ -1,4 +1,8 @@
-import { SET_REPO, RESET_REPO } from '../../actions/git/constants';
+import {
+  FETCH_REPO,
+  RESET_REPO,
+  REPO_RESPONSE,
+} from '../../actions/git/constants';
 
 const initialState = {
   name: undefined,
@@ -6,10 +10,16 @@ const initialState = {
 
 const repository = (state = initialState, action: any) => {
   switch (action.type) {
-    case SET_REPO:
+    case FETCH_REPO:
       return {
         ...state,
+        files: [],
         name: action.payload,
+      };
+    case REPO_RESPONSE:
+      return {
+        ...state,
+        files: action.payload,
       };
     case RESET_REPO:
       return {
