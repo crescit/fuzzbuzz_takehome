@@ -6,6 +6,7 @@ import { SpacedContent } from './FileBrowser.styled';
 import EnhancedPaper from '../atoms/EnhancedPaper';
 import FileList from '../atoms/FileList';
 import FilePane from '../atoms/FilePane';
+import FileView from './FileView';
 
 const connector = connect(
   (state: RootState) => ({
@@ -17,14 +18,21 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {};
 
 const FileBrowser = (props: Props) => {
-  const { repo = { name: '', files: [] } } = props;
-  console.log(repo.files);
+  const { repo = { name: '', files: [], fileName: '' } } = props;
   return (
     <SpacedContent>
       <EnhancedPaper title={repo.name}>
-        <FilePane>
-          <FileList files={repo.files} />
-        </FilePane>
+        {/*todo find a better way to manage the panels that is more responsive */}
+        <div
+          style={{
+            maxHeight: '580px',
+          }}
+        >
+          <FilePane>
+            <FileList files={repo.files} fileName={repo.fileName} />
+          </FilePane>
+          <FileView />
+        </div>
       </EnhancedPaper>
     </SpacedContent>
   );

@@ -24,9 +24,16 @@ export const FileLogo = styled(File)`
   margin-left: 10px;
 `;
 
-export const OverflowDiv = styled.div`
+interface DivProps {
+  fileName: string;
+}
+
+export const OverflowDiv = styled.div<{ fileName: string }>`
   overflow-y: scroll;
   height: 569px;
   display: block;
   background-color: white;
+  margin-top: ${({ fileName }) => {
+    return fileName ? '-15px' : '0px';
+  }};
 `;
