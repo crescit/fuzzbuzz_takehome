@@ -13,6 +13,13 @@ RUN npm run build
 # build the production container 
 FROM alpine:latest 
 RUN apk --no-cache add ca-certificates
+RUN apk add --no-cache git make musl-dev go
+# Configure Go to run the test command
+ENV GOROOT /usr/lib/go
+ENV GOPATH /go
+ENV PATH /go/bin:$PATH
+RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
+# finish building the production container
 COPY --from=builder /main ./
 COPY --from=node_builder /build ./web 
 RUN chmod +x ./main 
