@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as File } from '../../assets/file.svg';
+import { ReactComponent as Folder } from '../../assets/folder.svg';
 
 export const StyledList = styled.ul`
   margin-block-start: 0px;
@@ -18,6 +19,13 @@ export const StyledListItem = styled.li`
 `;
 
 export const FileLogo = styled(File)`
+  height: 10px;
+  width: 10px;
+  margin-right: 5px;
+  margin-left: 10px;
+`;
+
+export const FolderLogo = styled(Folder)`
   height: 10px;
   width: 10px;
   margin-right: 5px;

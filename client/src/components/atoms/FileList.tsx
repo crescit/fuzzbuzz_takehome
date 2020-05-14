@@ -5,6 +5,7 @@ import {
   StyledList,
   StyledListItem,
   FileLogo,
+  FolderLogo,
   OverflowDiv,
 } from './FileList.styled';
 
@@ -30,7 +31,7 @@ const FileList = (props: Props) => (
           key={file.name}
           onClick={() => props.fetchContent(file.url, file.name)}
         >
-          {file.type === 'file' && <FileLogo />}
+          {file.type === 'file' ? <FileLogo /> : <FolderLogo />}
           {file.name}
         </StyledListItem>
       ))}

@@ -21,7 +21,7 @@ const FileBrowser = (props: Props) => {
   const { repo = { name: '', files: [], fileName: '' } } = props;
   return (
     <SpacedContent>
-      <EnhancedPaper title={repo.name}>
+      <EnhancedPaper title={repo.name} stars={repo.stars}>
         {/*todo find a better way to manage the panels that is more responsive */}
         <div
           style={{
