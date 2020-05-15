@@ -22,7 +22,7 @@ func main() {
 	})
 
 	// POST ​/api/:github_org/:github_repo/test​→ runs the Go tests and returns the coverage profile
-	api.POST("/:github_org/:github_repo/info", func(c *gin.Context) {
+	api.POST("/:github_org/:github_repo/test", func(c *gin.Context) {
 		org := c.Param("github_org")
 		repo := c.Param("github_repo")
 		gitParser.ReturnTestCoverage(c, org, repo)

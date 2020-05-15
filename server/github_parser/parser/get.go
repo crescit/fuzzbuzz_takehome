@@ -53,7 +53,6 @@ func ReturnRepoInfo(c *gin.Context, org string, repo string) {
 	}
 	var repoRes RepoInfoResponse
 	repoInfo, _ := ioutil.ReadAll(res.Body)
-	fmt.Println(string(repoInfo))
 	defer res.Body.Close()
 	json.Unmarshal(repoInfo, &repoRes)
 
@@ -99,31 +98,4 @@ func ReturnRepoInfo(c *gin.Context, org string, repo string) {
 	// Line below call the download link for each file and sent the content over
 	// ProcessedFiles := processLinksForContentString(filelist)
 	c.JSON(http.StatusOK, RepoRes)
-}
-
-// the below function is an artifact from when the implementation was to fetch all the content on the first call
-// processLinksForContentString takes each link returned from the file and calls for the content
-func processLinksForContentString(files []FileStructure) (FilesContent []ContentStructure) {
-	var Content []ContentStructure
-	// for each link in file structure
-	for _, element := range files {
-		// call get and unmarshal to the struct
-		response, err := http.Get(element.URL)
-		if err != nil {
-			fmt.Printf("failed to get content for %s", element.Name)
-		} else {
-			defer response.Body.Close()
-			data, _ := ioutil.ReadAll(response.Body)
-			var filecontent ContentStructure
-			json.Unmarshal(data, &filecontent)
-			// check for api limit message otherwise append to response
-			if filecontent.Message != "" {
-				fmt.Printf("API LIMIT HIT WONT APPEND PROPERLY")
-			} else {
-				Content = append(Content, filecontent)
-			}
-		}
-	}
-	// append to Content and return Content from the endpoint
-	return Content
 }

@@ -7,7 +7,30 @@ export const Pre = styled.pre`
   padding: 0 !important;
 `;
 
-export const Line = styled.div``;
+interface LineProps {
+  hasTest: boolean;
+  inRange: boolean;
+}
+
+export const Line = styled.div<LineProps>`
+  background-color: ${({ inRange, hasTest }) => {
+    if (hasTest) {
+      return inRange ? '#f0fee7' : '#f7e7e8';
+    } else {
+      return 'white !important';
+    }
+  }};
+  span {
+    text-shadow: none;
+    background-color: ${({ inRange, hasTest }) => {
+      if (hasTest) {
+        return inRange ? '#f0fee7' : '#f7e7e8';
+      } else {
+        return 'white !important';
+      }
+    }};
+  }
+`;
 
 export const LineNo = styled.span`
   display: table-cell;
