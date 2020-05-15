@@ -48,6 +48,8 @@ export const FlexDiv = styled.div`
 `;
 
 export const TestButton = styled(Button)`
+  position: relative;
+  top: -5px;
   * {
     background-color: #6ca9bc;
   }
@@ -58,6 +60,18 @@ export const TestText = styled.p`
   font-weight: bold;
   color: white;
   z-index: 2;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+`;
+
+export const StatusMessage = styled.p`
+  position: relative;
+  top: 5px;
+  right: 5px;
+  font-weight: bold;
+  font-size: 0.625rem;
   margin-block-start: 0px;
   margin-block-end: 0px;
   margin-inline-start: 0px;

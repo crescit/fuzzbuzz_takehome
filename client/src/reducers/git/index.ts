@@ -3,6 +3,8 @@ import {
   RESET_REPO,
   REPO_RESPONSE,
   CONTENT_RESPONSE,
+  FETCH_TEST,
+  TEST_RESPONSE,
 } from '../../actions/git/constants';
 
 const initialState = {
@@ -15,7 +17,7 @@ const repository = (state = initialState, action: any) => {
       return {
         ...state,
         files: [],
-        name: action.payload,
+        name: action.name,
       };
     case REPO_RESPONSE:
       return {
@@ -33,6 +35,16 @@ const repository = (state = initialState, action: any) => {
         ...state,
         content: action.content,
         fileName: action.filename,
+      };
+    case FETCH_TEST:
+      return {
+        ...state,
+        tests: [],
+      };
+    case TEST_RESPONSE:
+      return {
+        ...state,
+        tests: action.tests,
       };
     default:
       return state;

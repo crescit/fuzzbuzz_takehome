@@ -5,6 +5,9 @@ import {
   FETCH_CONTENT,
   CONTENT_RESPONSE,
   CONTENT_ERROR,
+  FETCH_TEST,
+  TEST_ERROR,
+  TEST_RESPONSE,
 } from './constants';
 import axios from 'axios';
 
@@ -22,7 +25,7 @@ const splitRepoFromString = (repo: string) => {
 
 // action that takes a repo name, and fetches the information on the repository from the backend
 export const fetchRepo = (repo: string) => (dispatch: any) => {
-  dispatch({ type: FETCH_REPO, payload: repo });
+  dispatch({ type: FETCH_REPO, name: repo });
   const { user, project } = splitRepoFromString(repo);
   axios
     .get(`/api/${user}/${project}/info`)
@@ -57,5 +60,40 @@ export const fetchContent = (url: string, fileName: string) => (
     .catch((err) => {
       console.error(err);
       dispatch({ type: CONTENT_ERROR });
+    });
+};
+
+const processFileNameForDict = (file_name: string, repo: string) => {
+  return file_name.slice(file_name.indexOf(repo) + 1 + repo.length);
+};
+export const postTestRepo = (repo: string) => (dispatch: any) => {
+  dispatch({ type: FETCH_TEST });
+  const { user, project } = splitRepoFromString(repo);
+  axios
+    .post(`/api/${user}/${project}/test`)
+    .then((res) => {
+      interface Files {
+        [key: string]: Record<string, any>[];
+      }
+      interface FileResponse {
+        file_name: string;
+        coverage_blocks: any;
+      }
+      const { data } = res;
+      const { files = [] } = data;
+      const fileDict: Files = {};
+      files.forEach((file: FileResponse) => {
+        const { file_name = '', coverage_blocks = [] } = file;
+        const name = processFileNameForDict(file_name, repo);
+        fileDict[name] = coverage_blocks;
+      });
+      dispatch({
+        type: TEST_RESPONSE,
+        tests: fileDict,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch({ type: TEST_ERROR });
     });
 };

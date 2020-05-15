@@ -14,8 +14,28 @@ const connector = connect(
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {};
 
+// function that tests that if the given line number is in the range of the file
+const testLineRange = (lineNum: number, repo: any, fileName: string) => {
+  if (repo && repo[fileName]) {
+    const slice = repo[fileName];
+    interface RangeType {
+      start_line: number;
+      end_line: number;
+    }
+    let inRange = false;
+    slice.forEach((range: RangeType) => {
+      const { start_line, end_line } = range;
+      if (lineNum >= start_line && lineNum <= end_line) {
+        inRange = true;
+      }
+    });
+    return inRange;
+  }
+  return false;
+};
+
 const FileView = (props: Props) => {
-  const { repo = { content: '' } } = props;
+  const { repo = { content: '', tests: {}, fileName: '' } } = props;
   return (
     <View>
       {repo.content && (
@@ -27,16 +47,23 @@ const FileView = (props: Props) => {
         >
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <Pre className={className} style={style}>
-              {tokens.map((line, i) => (
-                <Line key={i} {...getLineProps({ line, key: i })}>
-                  <LineNo>{i + 1}</LineNo>
-                  <LineContent>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token, key })} />
-                    ))}
-                  </LineContent>
-                </Line>
-              ))}
+              {tokens.map((line, i) => {
+                return (
+                  <Line
+                    key={i}
+                    {...getLineProps({ line, key: i })}
+                    inRange={testLineRange(i, repo.tests, repo.fileName)}
+                    hasTest={repo.tests && repo.tests[repo.fileName]}
+                  >
+                    <LineNo>{i + 1}</LineNo>
+                    <LineContent>
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token, key })} />
+                      ))}
+                    </LineContent>
+                  </Line>
+                );
+              })}
             </Pre>
           )}
         </Highlight>
